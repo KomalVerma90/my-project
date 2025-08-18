@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Product Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 6px 12px;
+            font-size: 16px;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        tr:first-child {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            text-align: left;
+        }
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 
+    Title: Dynamic Product Filter with Dropdown using JavaScript DOM Manipulation
+    Objective:
+    Build a web-based product list that can dynamically filter and display items based on the user's selection from a dropdown menu.
+
+    Task Description:
+    Create a dropdown menu to filter products by category. Display the products in a table layout using only <tr> and <td> tags.
+    The filtering should happen in real-time when the user selects a category.
+-->
+
+<h2>Product List</h2>
+
+<select id="categoryFilter" onchange="filterProducts()">
+    <option value="all">All Categories</option>
+    <option value="electronics">Electronics</option>
+    <option value="clothing">Clothing</option>
+    <option value="books">Books</option>
+</select>
+
+<table id="productTable">
+    <tr>
+        <td>Product Name</td>
+        <td>Category</td>
+        <td>Price</td>
+    </tr>
+    <tr>
+        <td>Smartphone</td>
+        <td>electronics</td>
+        <td>$699</td>
+    </tr>
+    <tr>
+        <td>Laptop</td>
+        <td>electronics</td>
+        <td>$1200</td>
+    </tr>
+    <tr>
+        <td>T-Shirt</td>
+        <td>clothing</td>
+        <td>$25</td>
+    </tr>
+    <tr>
+        <td>Jeans</td>
+        <td>clothing</td>
+        <td>$45</td>
+    </tr>
+    <tr>
+        <td>Novel</td>
+        <td>books</td>
+        <td>$15</td>
+    </tr>
+    <tr>
+        <td>Cookbook</td>
+        <td>books</td>
+        <td>$5</td>
+    </tr>
+</table>
+
+<script>
+function filterProducts() {
+    let filter = document.getElementById("categoryFilter").value;
+    let table = document.getElementById("productTable");
+    let rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) { // skip header row
+        let categoryCell = rows[i].getElementsByTagName("td")[1];
+        let category = categoryCell.textContent || categoryCell.innerText;
+
+        if (filter === "all" || category === filter) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+</body>
+</html>S
