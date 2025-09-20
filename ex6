@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Drawing Tool</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #canvas { border: 2px solid #333; background: #f9f9f9; display: block; margin: 20px auto; }
+    h2 { margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <h2>SVG Drawing Tool</h2>
+  <svg id="canvas" width="600" height="400"></svg>
+
+  <script>
+    const svg = document.getElementById('canvas');
+    let drawing = false;
+    let currentPolyline = null;
+    let points = [];
+
+    function getMousePos(evt) {
+      const rect = svg.getBoundingClientRect();
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      };
+    }
+
+    svg.addEventListener('mousedown', function(evt) {
+      drawing = true;
+      points = [];
+      const pos = getMousePos(evt);
+      points.push([pos.x, pos.y]);
+      currentPolyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+      currentPolyline.setAttribute("stroke", "#2196F3");
+      currentPolyline.setAttribute("stroke-width", 2);
+      currentPolyline.setAttribute("fill", "none");
+      svg.appendChild(currentPolyline);
+      currentPolyline.setAttribute("points", points.map(p=>p.join(',')).join(' '));
+    });
+
+ 
+    svg.addEventListener('mousemove', function(evt) {
+      if (!drawing || !currentPolyline) return;
+      const pos = getMousePos(evt);
+      points.push([pos.x, pos.y]);
+      currentPolyline.setAttribute("points", points.map(p=>p.join(',')).join(' '));
+    });
+
+   
+    ['mouseup', 'mouseleave'].forEach(event => {
+      svg.addEventListener(event, function(evt) {
+        if (drawing) {
+          drawing = false;
+          currentPolyline = null;
+          points = [];
+        }
+      });
+    });
+  </script>
+</body>
+</html>
